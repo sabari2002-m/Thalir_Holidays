@@ -1,32 +1,5 @@
 # Email Notification Setup for Thalir Holidays
 
-## Free Alternative: Telegram Notifications (Recommended)
-
-If SendGrid credits are exhausted, you can receive booking alerts for free in Telegram.
-
-### 1. Create Telegram Bot
-1. Open Telegram and search for `@BotFather`
-2. Send `/newbot`
-3. Complete bot creation and copy the bot token
-
-### 2. Get Your Chat ID
-1. Send any message to your new bot in Telegram
-2. Open this URL in browser (replace BOT_TOKEN):
-   `https://api.telegram.org/botBOT_TOKEN/getUpdates`
-3. Find `"chat":{"id": ... }` and copy that numeric id
-
-### 3. Add Environment Variables
-In your `.env` (local) and Render Environment (production), add:
-```
-TELEGRAM_BOT_TOKEN=your_bot_token_here
-TELEGRAM_CHAT_ID=your_chat_id_here
-```
-
-### 4. Behavior
-- App tries SendGrid first (if configured)
-- If SendGrid is unavailable/fails, app automatically falls back to Telegram
-- If only Telegram is configured, booking notifications are still delivered
-
 ## 📧 Gmail App Password Setup
 
 To enable email notifications, you need to create a Gmail App Password:

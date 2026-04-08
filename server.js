@@ -55,54 +55,7 @@ if (process.env.SENDGRID_API_KEY) {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 }
 
-// Free alternative notification channel via Telegram Bot API
-async function sendTelegramNotification(bookingData) {
-  const botToken = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
-
-  if (!botToken || !chatId) {
-    return false;
-  }
-
-  const message = [
-    'New Booking - Thalir Holidays',
-    `Booking ID: #${bookingData.booking_id}`,
-    `Name: ${bookingData.customer_name}`,
-    `Email: ${bookingData.email}`,
-    `Phone: ${bookingData.phone}`,
-    `Package: ${bookingData.package_title || 'General Inquiry'}`,
-    `Travel Date: ${bookingData.travel_date}`,
-    `Adults: ${bookingData.num_adults}`,
-    `Children: ${bookingData.num_children || 0}`,
-    `Special Requests: ${bookingData.special_requests || 'None'}`,
-    `Submitted At: ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}`
-  ].join('\n');
-
-  try {
-    const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text: message
-      })
-    });
-
-    if (!response.ok) {
-      const body = await response.text();
-      console.error('Telegram notification failed:', body);
-      return false;
-    }
-
-    console.log('Booking notification sent successfully via Telegram');
-    return true;
-  } catch (error) {
-    console.error('Error sending Telegram notification:', error);
-    return false;
-  }
-}
-
-// Function to send booking notification (SendGrid first, Telegram fallback)
+// Function to send booking notification email
 async function sendBookingNotification(bookingData) {
   const msg = {
     to: process.env.NOTIFICATION_EMAIL || 'sabarimanickaraj269@gmail.com',
@@ -177,26 +130,17 @@ async function sendBookingNotification(bookingData) {
     if (process.env.SENDGRID_API_KEY) {
       await sgMail.send(msg);
       console.log('Booking notification email sent successfully via SendGrid');
-      return true;
     } else {
-      console.log('SendGrid not configured. Trying Telegram notification.');
-      const telegramSent = await sendTelegramNotification(bookingData);
-      if (telegramSent) {
-        return true;
-      }
-
-      console.log('No notification channel configured. Booking details:', bookingData);
-      return false;
+      console.log('SendGrid not configured - Email would have been sent to:', msg.to);
+      console.log('Booking details:', bookingData);
     }
+    return true;
   } catch (error) {
     console.error('Error sending email:', error);
     if (error.response) {
       console.error('SendGrid error:', error.response.body);
     }
-
-    // Fallback to Telegram when SendGrid errors out (e.g., credits exceeded)
-    const telegramSent = await sendTelegramNotification(bookingData);
-    return telegramSent;
+    return false;
   }
 }
 
