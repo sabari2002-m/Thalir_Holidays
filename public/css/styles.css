@@ -608,14 +608,14 @@ nav {
   color: #856404;
 }
 
-.status-confirmed {
+.status-in_process {
   background-color: #d4edda;
   color: #155724;
 }
 
-.status-cancelled {
-  background-color: #f8d7da;
-  color: #721c24;
+.status-completed {
+  background-color: #d1e7dd;
+  color: #0f5132;
 }
 
 .delete-btn {

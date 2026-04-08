@@ -68,11 +68,22 @@
 
             <div class="package-card">
                 <div class="package-header" style="background: linear-gradient(135deg, #28a745, #20c997);">
-                    <h3>✅ Confirmed</h3>
+                    <h3>⚙️ In Process</h3>
                 </div>
                 <div class="package-body">
                     <div style="text-align: center;">
-                        <span class="value price" id="confirmedBookings" style="font-size: 3rem; color: #28a745;">0</span>
+                        <span class="value price" id="inProcessBookings" style="font-size: 3rem; color: #20c997;">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="package-card">
+                <div class="package-header" style="background: linear-gradient(135deg, #2c5f2d, #4caf50);">
+                    <h3>✅ Completed</h3>
+                </div>
+                <div class="package-body">
+                    <div style="text-align: center;">
+                        <span class="value price" id="completedBookings" style="font-size: 3rem; color: #2c5f2d;">0</span>
                     </div>
                 </div>
             </div>
@@ -167,16 +178,27 @@
         // Update booking statistics
         async function updateStatistics() {
             try {
-                const response = await fetch(window.location.origin + '/api/bookings');
+                const auth = sessionStorage.getItem('adminAuth');
+                const response = await fetch(window.location.origin + '/api/bookings', {
+                    headers: auth ? { Authorization: `Basic ${auth}` } : {}
+                });
+
+                if (response.status === 401) {
+                    adminLogout();
+                    return;
+                }
+
                 const bookings = await response.json();
 
                 const total = bookings.length;
                 const pending = bookings.filter(b => b.status === 'pending').length;
-                const confirmed = bookings.filter(b => b.status === 'confirmed').length;
+                const inProcess = bookings.filter(b => b.status === 'in_process').length;
+                const completed = bookings.filter(b => b.status === 'completed').length;
 
                 document.getElementById('totalBookings').textContent = total;
                 document.getElementById('pendingBookings').textContent = pending;
-                document.getElementById('confirmedBookings').textContent = confirmed;
+                document.getElementById('inProcessBookings').textContent = inProcess;
+                document.getElementById('completedBookings').textContent = completed;
             } catch (error) {
                 console.error('Error loading statistics:', error);
             }

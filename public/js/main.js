@@ -5,6 +5,17 @@ const API_URL = window.location.origin + '/api';
 let allPackages = [];
 let allDestinations = [];
 
+function getAdminAuthHeaders() {
+    const auth = sessionStorage.getItem('adminAuth');
+    if (!auth) {
+        return {};
+    }
+
+    return {
+        'Authorization': `Basic ${auth}`
+    };
+}
+
 // Utility function to format currency
 function formatCurrency(amount) {
     return `₹${amount.toLocaleString('en-IN')}`;
@@ -363,7 +374,17 @@ function setupPackagePreview() {
 // Load bookings for admin page
 async function loadBookings() {
     try {
-        const response = await fetch(`${API_URL}/bookings`);
+        const response = await fetch(`${API_URL}/bookings`, {
+            headers: getAdminAuthHeaders()
+        });
+
+        if (response.status === 401) {
+            sessionStorage.removeItem('adminAuth');
+            sessionStorage.removeItem('adminUser');
+            window.location.href = '/admin-login.html';
+            return;
+        }
+
         const bookings = await response.json();
         displayBookings(bookings);
     } catch (error) {
@@ -420,8 +441,8 @@ function displayBookings(bookings) {
                             <div class="action-buttons">
                                 <select onchange="updateBookingStatus(${booking.id}, this.value)">
                                     <option value="pending" ${booking.status === 'pending' ? 'selected' : ''}>Pending</option>
-                                    <option value="confirmed" ${booking.status === 'confirmed' ? 'selected' : ''}>Confirmed</option>
-                                    <option value="cancelled" ${booking.status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
+                                    <option value="in_process" ${booking.status === 'in_process' ? 'selected' : ''}>In Process</option>
+                                    <option value="completed" ${booking.status === 'completed' ? 'selected' : ''}>Completed</option>
                                 </select>
                                 <button class="delete-btn" onclick="deleteBooking(${booking.id})">🗑️ Delete</button>
                             </div>
@@ -448,7 +469,8 @@ async function updateBookingStatus(bookingId, newStatus) {
         const response = await fetch(`${API_URL}/bookings/${bookingId}/status`, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                ...getAdminAuthHeaders()
             },
             body: JSON.stringify({ status: newStatus })
         });
@@ -475,7 +497,8 @@ async function deleteBooking(bookingId) {
 
     try {
         const response = await fetch(`${API_URL}/bookings/${bookingId}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: getAdminAuthHeaders()
         });
 
         const result = await response.json();
