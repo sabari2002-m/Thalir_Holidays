@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Travel Packages - Thalir Holidays</title>
-    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <!-- Header -->
@@ -20,20 +20,19 @@
         <nav>
             <div class="nav-content">
                 <div class="logo">
-                    <img src="/images/logo.jpeg" alt="Thalir Holidays" class="logo-image">
+                    <img src="images/logo.jpeg" alt="Thalir Holidays" class="logo-image">
                     <span>Thalir Holidays</span>
                 </div>
                 <ul class="nav-links">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/packages" class="active">Packages</a></li>
-                    <li><a href="/booking">Book Now</a></li>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="packages.html" class="active">Packages</a></li>
                 </ul>
             </div>
         </nav>
     </header>
 
     <!-- Page Header -->
-    <section class="hero" style="min-height: 300px; padding: 4rem 2rem;">
+    <section class="hero page-hero">
         <div class="hero-content">
             <h1>Our Travel Packages</h1>
             <p>Discover amazing 2-3 day getaways across South India</p>
@@ -86,9 +85,8 @@
             <div class="footer-section">
                 <h3>Quick Links</h3>
                 <ul>
-                    <li><a href="/index.html">Home</a></li>
-                    <li><a href="/packages.html">All Packages</a></li>
-                    <li><a href="/booking.html">Book Now</a></li>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="packages.html">All Packages</a></li>
                     <li><a href="#about">About Us</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
@@ -97,11 +95,11 @@
             <div class="footer-section">
                 <h3>Popular Destinations</h3>
                 <ul>
-                    <li><a href="/packages">Ooty</a></li>
-                    <li><a href="/packages">Munnar</a></li>
-                    <li><a href="/packages">Valparai</a></li>
-                    <li><a href="/packages">Varkala</a></li>
-                    <li><a href="/packages">Yercaud</a></li>
+                    <li><a href="packages.html">Ooty</a></li>
+                    <li><a href="packages.html">Munnar</a></li>
+                    <li><a href="packages.html">Valparai</a></li>
+                    <li><a href="packages.html">Varkala</a></li>
+                    <li><a href="packages.html">Yercaud</a></li>
                 </ul>
             </div>
 
@@ -122,13 +120,7 @@
         </div>
     </footer>
 
-    <script src="/js/main.js"></script>
-    <script>
-        // Initialize packages page
-        document.addEventListener('DOMContentLoaded', () => {
-            loadPackages();
-            setupFilters();
-        });
-    </script>
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>

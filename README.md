@@ -1,89 +1,49 @@
-# Thalir Holidays - Travel Booking Website
+# Thalir Holidays
 
-A dynamic website for booking travel packages to South Indian destinations including Tamil Nadu, Kerala, and Karnataka.
+Static travel website for South Indian tour packages. The site is built with HTML, CSS, and vanilla JavaScript and is deployed with GitHub Pages.
+
+## Live site
+
+https://sabari2002-m.github.io/Thalir_Holidays/
 
 ## Features
 
-- Browse travel packages for 11+ destinations
-- Interactive booking form with validation
-- SQLite database for storing customer inquiries
-- Responsive design for mobile and desktop
-- Admin dashboard to view bookings
+- Browse destinations and travel packages
+- Filter packages by state, duration, and price
+- Responsive mobile-friendly layout
+- Static package catalog with destination filtering
+- No server, database, or environment variables required
 
-## Destinations
-
-- **Tamil Nadu**: Valparai, Ooty, Yercaud, Kanyakumari, Rameshwaram
-- **Kerala**: Varkala, Wayanad, Munnar
-- **Karnataka**: Chikkamagaluru, Coorg, Mysore
-
-## Technology Stack
-
-- **Frontend**: HTML5, CSS3, JavaScript (Vanilla)
-- **Backend**: Node.js with Express.js
-- **Database**: SQLite3
-- **Design**: Responsive CSS with mobile-first approach
-
-## Installation
-
-1. Install dependencies:
-```bash
-npm install
-```
-
-2. Start the server:
-```bash
-npm start
-```
-
-For development with auto-reload:
-```bash
-npm run dev
-```
-
-3. Open your browser and navigate to:
-```
-http://localhost:3000
-```
-
-## Project Structure
+## Project structure
 
 ```
-thalir-holidays/
-├── public/
-│   ├── css/
-│   │   └── styles.css
-│   ├── js/
-│   │   └── main.js
+Thalir/
+├── docs/
+│   ├── css/styles.css
 │   ├── images/
+│   ├── js/data.js
+│   ├── js/main.js
 │   ├── index.html
 │   ├── packages.html
-│   ├── booking.html
-│   └── admin.html
-├── server.js
-├── database.js
-├── package.json
-└── .env
+├── index.html
+├── DEPLOYMENT.md
+└── README.md
 ```
 
-## API Endpoints
+## GitHub Pages deployment
 
-- `GET /api/destinations` - Get all destinations
-- `GET /api/packages` - Get all packages
-- `POST /api/bookings` - Submit a booking inquiry
-- `GET /api/bookings` - Get all bookings (admin)
+1. Push the repository to GitHub.
+2. Open **Settings > Pages**.
+3. Choose **Deploy from a branch**.
+4. Select branch `main` and folder `/docs`.
+5. Click **Save**.
 
-## Database Schema
+The root `index.html` is also included as a fallback redirect to `docs/index.html`.
 
-The SQLite database includes tables for:
-- Destinations
-- Packages
-- Bookings/Inquiries
+## Local preview
 
-## Future Enhancements
+From the repository root, run any static file server. For example:
 
-- Payment gateway integration
-- Email notifications
-- User authentication
-- Reviews and ratings
-- Photo galleries
-- Multi-language support
+```bash
+npx serve docs
+```
